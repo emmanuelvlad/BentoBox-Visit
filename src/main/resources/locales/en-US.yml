@@ -60,6 +60,7 @@ visit:
         value: "&7 Active filter: [value]"
         all_islands: "&b&o none"
         online_islands: "&b&o online"
+        most_liked_online_islands: "&b&o most liked online"
         can_visit: "&b&o visitable"
       # Button in User GUI for each island
       island:

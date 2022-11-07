@@ -423,7 +423,11 @@ public class Settings implements ConfigObject
         /**
          * Indicate that filter should be showing only islands that can be visited.
          */
-        CAN_VISIT
+        CAN_VISIT,
+        /**
+         * Indicate that filter should be showing only most liked online player islands.
+         */
+        MOST_LIKED_ONLINE_ISLANDS
     }
 
 
@@ -515,6 +519,7 @@ public class Settings implements ConfigObject
     @ConfigComment("   ALL_ISLANDS - all islands will be available in the GUI.")
     @ConfigComment("   ONLINE_ISLANDS - all online islands will be available in the GUI.")
     @ConfigComment("   CAN_VISIT - all islands that can be visited will be available in the GUI.")
+    @ConfigComment("   MOST_LIKED_ONLINE_ISLANDS - most liked online islands will be available in the GUI.")
     @ConfigEntry(path = "gui.filters.show")
     private Filter defaultFilter = Filter.ALL_ISLANDS;
 

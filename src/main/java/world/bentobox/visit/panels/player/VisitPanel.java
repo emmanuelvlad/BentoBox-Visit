@@ -17,6 +17,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import world.bentobox.bentobox.api.addons.request.AddonRequestBuilder;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.TemplatedPanel;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -441,6 +442,7 @@ public class VisitPanel
         {
             builder.icon(switch (this.activeFilter) {
                 case ONLINE_ISLANDS -> Material.SANDSTONE_STAIRS;
+                case MOST_LIKED_ONLINE_ISLANDS -> Material.SANDSTONE_WALL;
                 case CAN_VISIT -> Material.SANDSTONE_SLAB;
                 default -> Material.SMOOTH_SANDSTONE;
             });
@@ -824,6 +826,35 @@ public class VisitPanel
                 filter(island -> island.getMemberSet().stream().
                     map(User::getInstance).
                     anyMatch(User::isOnline)).
+                collect(Collectors.toList());
+            case MOST_LIKED_ONLINE_ISLANDS -> this.elementList = this.islandList.stream().
+                filter(island -> island.getMemberSet().stream().
+                    map(User::getInstance).
+                    anyMatch(User::isOnline)).
+                sorted(Comparator.comparingLong(iObject -> {
+                    var i = (Island) iObject;
+                    if (i == null) {
+                        return 0;
+                    }
+
+                    var data = (Map<String, Object>) new AddonRequestBuilder()
+                        .addon("likes")
+                        .label("island-likes")
+                        .addMetaData("world-name", i.getWorld().getName())
+                        .addMetaData("island", i.getUniqueId())
+                        .request();
+                    
+                    if (data == null) {
+                        return 0;
+                    }
+
+                    var totalLikes = (Long) data.get("likes");
+                    if (totalLikes == null) {
+                        return 0;
+                    }
+
+                    return totalLikes;
+                }).reversed()).
                 collect(Collectors.toList());
             case CAN_VISIT ->
                 // TODO: add balance and online check.

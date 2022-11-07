@@ -320,6 +320,7 @@ public class AdminPanel
             {
                 material = switch (this.addon.getSettings().getDefaultFilter()) {
                     case ONLINE_ISLANDS -> Material.SANDSTONE_STAIRS;
+                    case MOST_LIKED_ONLINE_ISLANDS -> Material.SANDSTONE_WALL;
                     case CAN_VISIT -> Material.SANDSTONE_STAIRS;
                     default -> Material.SMOOTH_SANDSTONE;
                 };
